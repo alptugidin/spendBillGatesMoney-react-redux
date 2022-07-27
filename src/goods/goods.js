@@ -6,7 +6,7 @@ export const goods = [
   { name: 'Book', price: '15', img: '/book.jpg' },
   { name: 'Lobster Dinner', price: '45', img: '/lobster-dinner.jpg' },
   { name: 'Video Game', price: '60', img: '/video-game.jpg' },
-  { name: 'Amazon Echo', price: '99', img: '/amazon-echp.jpg' },
+  { name: 'Amazon Echo', price: '99', img: '/amazon-echo.jpg' },
   { name: 'Year of Netflix', price: '100', img: '/year-of-netflix.jpg' },
   { name: 'Air Jordans', price: '125', img: '/air-jordans.jpg' },
   { name: 'Airpods', price: '199', img: '/airpods.jpg' },

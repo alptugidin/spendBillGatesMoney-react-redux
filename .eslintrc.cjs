@@ -26,6 +26,7 @@ module.exports = {
     "import/no-unresolved": 0,
     "no-console": "off",
     "no-tabs": "off",
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "react/no-unescaped-entities" : "off"
   },
 };
