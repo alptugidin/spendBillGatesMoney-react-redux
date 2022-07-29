@@ -1,13 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateTotal } from '@/redux/spendMoneySlice';
 
 function Receipt() {
   const items = useSelector((state) => state.spendMoney.items);
   const total = useSelector((state) => state.spendMoney.total);
-  // const [total, setTotal] = useState(0);
+
+  function nFormatter(num) {
+    if (num >= 1000000000) {
+      return `${(num / 1000000000).toFixed(1).replace(/\.0$/, '')}G`;
+    }
+    if (num >= 1000000) {
+      return `${(num / 1000000).toFixed(1).replace(/\.0$/, '')}M`;
+    }
+    if (num >= 1000) {
+      return `${(num / 1000).toFixed(1).replace(/\.0$/, '')}K`;
+    }
+    return num;
+  }
 
   return (
-    <div className="w-80 h-52 bg-white fixed right-3 top-0 z-20 rounded-b-lg drop-shadow-lg p-1">
+    <div className="w-80 min-h-52 bg-white fixed right-3 top-0 z-20 rounded-b-lg drop-shadow-lg p-1">
       <p className="text-2xl text-center text-gray-600">
         Your receipt
       </p>
@@ -17,29 +30,37 @@ function Receipt() {
             className="flex"
             key={item.name}
           >
-            <div className="basis-2/5">
+            <div className="basis-3/6">
               <p>{item.name}</p>
             </div>
-            <div className="basis-1/5">
+            <div className="basis-1/6">
               <p>
                 x
                 {item.quantity}
               </p>
             </div>
-            <div className="basis-2/5 pr-1">
-              <p className="text-right">
-                {item.price * item.quantity}
+            <div className="basis-2/6 pr-1">
+              <p className="text-right text-green-600 font-semibold">
+                $
+                {/* {new Intl.NumberFormat('en-US').format(item.price * item.quantity)} */}
+                {nFormatter(item.price * item.quantity)}
               </p>
             </div>
           </div>
         ))}
-        <div className="p1 flex justify-around">
-          <p>TOTAL:</p>
-          <p>{total}</p>
-        </div>
+        <hr className="h-0.5 my-1 bg-gray-800" />
+      </div>
+      <div className="flex pr-1">
+        <p className="basis-1/2 text-right">
+          Total:
+          {' '}
+        </p>
+        <p className="text-right basis-1/2 text-green-700 font-semibold">
+          $
+          {new Intl.NumberFormat('en-US').format(items.reduce((a, b) => a + b.total, 0))}
+        </p>
       </div>
     </div>
   );
 }
-
 export default Receipt;

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { add } from '@/redux/spendMoneySlice';
 
 function Card({ name, price, img }) {
   const [value, setValue] = useState(0);
   const dispatch = useDispatch();
+
   const increment = () => {
     const item = {
       name,
@@ -28,6 +29,7 @@ function Card({ name, price, img }) {
       setValue(e.target.value);
     }
   };
+
   return (
     <div className="bg-white rounded-lg drop-shadow-lg w-80">
       <div className="p-2 h-56 w-full bg-white rounded-t-lg  flex flex-col justify-center">

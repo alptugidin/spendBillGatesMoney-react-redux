@@ -27,6 +27,7 @@ module.exports = {
     "no-console": "off",
     "no-tabs": "off",
     "react/prop-types": "off",
-    "react/no-unescaped-entities" : "off"
+    "react/no-unescaped-entities" : "off",
+    "radix": "off"
   },
 };
