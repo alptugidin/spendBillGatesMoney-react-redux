@@ -4,6 +4,7 @@ export const spendMoneySlice = createSlice({
   name: 'spendMoney',
   initialState: {
     items: [],
+    wallet: 1000000000,
     total: 0,
   },
   reducers: {
@@ -11,23 +12,50 @@ export const spendMoneySlice = createSlice({
       if (state.items.some((item) => item.name === action.payload.name)) {
         const index = state.items.findIndex((item) => item.name === action.payload.name);
         state.items[index].quantity += 1;
-        state.items[index].total = state.items[index].price * state.items[index].quantity;
       } else {
         state.items.push(action.payload);
       }
+      const index = state.items.findIndex((item) => item.name === action.payload.name);
+      state.items[index].total = state.items[index].price * state.items[index].quantity;
     },
 
     remove: (state, action) => {
-      if (state.items.some((item) => item.name === action.payload.name)) {
-        console.log('sds');
+      if (state.items.some((item) => item.name === action.payload)) {
+        const index = state.items.findIndex((item) => item.name === action.payload);
+        if (state.items[index].quantity === 1) {
+          state.items[index].quantity -= 1;
+          state.items[index].total = state.items[index].price * state.items[index].quantity;
+          state.items = state.items.filter((item) => item.name !== action.payload);
+        } else {
+          state.items[index].quantity -= 1;
+          state.items[index].total = state.items[index].price * state.items[index].quantity;
+        }
       }
     },
 
-    updateTotal: (state, action) => {
-      state.total = action.payload;
+    update: (state, action) => {
+      if (state.items.some((item) => item.name === action.payload.name)) {
+        if (action.payload.quantity === 0) {
+          state.items = state.items.filter((item) => item.name !== action.payload.name);
+        } else {
+          const index = state.items.findIndex((item) => item.name === action.payload.name);
+          state.items[index].quantity = action.payload.quantity;
+        }
+      } else {
+        state.items.push(action.payload);
+        const index = state.items.findIndex((item) => item.name === action.payload.name);
+        state.items[index].total = state.items[index].price * state.items[index].quantity;
+      }
     },
+
+    updateTotal: (state) => {
+      state.total = state.items.reduce((a, b) => a + b.total, 0);
+    },
+
   },
 });
 
-export const { add, updateTotal } = spendMoneySlice.actions;
+export const {
+  add, remove, update, updateTotal,
+} = spendMoneySlice.actions;
 export default spendMoneySlice.reducer;

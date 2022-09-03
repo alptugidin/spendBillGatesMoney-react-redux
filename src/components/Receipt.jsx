@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateTotal } from '@/redux/spendMoneySlice';
 
 function Receipt() {
   const items = useSelector((state) => state.spendMoney.items);
   const total = useSelector((state) => state.spendMoney.total);
+  const dispatch = useDispatch();
 
   function nFormatter(num) {
     if (num >= 1000000000) {
-      return `${(num / 1000000000).toFixed(1).replace(/\.0$/, '')}G`;
+      return `${(num / 1000000000).toFixed(1).replace(/\.0$/, '')}B`;
     }
     if (num >= 1000000) {
       return `${(num / 1000000).toFixed(1).replace(/\.0$/, '')}M`;
@@ -18,6 +19,10 @@ function Receipt() {
     }
     return num;
   }
+
+  useEffect(() => {
+    dispatch(updateTotal(items.reduce((a, b) => a + b.total, 0)));
+  }, [items]);
 
   return (
     <div className="w-80 min-h-52 bg-white fixed right-3 top-0 z-20 rounded-b-lg drop-shadow-lg p-1">
@@ -42,7 +47,6 @@ function Receipt() {
             <div className="basis-2/6 pr-1">
               <p className="text-right text-green-600 font-semibold">
                 $
-                {/* {new Intl.NumberFormat('en-US').format(item.price * item.quantity)} */}
                 {nFormatter(item.price * item.quantity)}
               </p>
             </div>
@@ -57,7 +61,8 @@ function Receipt() {
         </p>
         <p className="text-right basis-1/2 text-green-700 font-semibold">
           $
-          {new Intl.NumberFormat('en-US').format(items.reduce((a, b) => a + b.total, 0))}
+          {/* {new Intl.NumberFormat('en-US').format(items.reduce((a, b) => a + b.total, 0))} */}
+          {total}
         </p>
       </div>
     </div>

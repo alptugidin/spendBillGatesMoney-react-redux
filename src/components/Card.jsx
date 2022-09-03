@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { add } from '@/redux/spendMoneySlice';
+import { add, remove, update } from '@/redux/spendMoneySlice';
 
 function Card({ name, price, img }) {
   const [value, setValue] = useState(0);
@@ -19,14 +19,20 @@ function Card({ name, price, img }) {
   };
 
   const decrement = () => {
-    if (value > 0) {
-      setValue(value - 1);
-    }
+    dispatch(remove(name));
+    setValue(value - 1);
   };
 
   const handleOnChange = (e) => {
-    if (Number(e.target.value)) {
-      setValue(e.target.value);
+    if (Number(e.target.value) || e.target.value === '0') {
+      setValue(parseInt(e.target.value));
+      const item = {
+        name,
+        price,
+        quantity: parseInt(e.target.value),
+        total: 0,
+      };
+      dispatch(update(item));
     }
   };
 

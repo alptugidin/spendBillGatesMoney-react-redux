@@ -1,13 +1,14 @@
-import React, {
-  createRef, useEffect, useRef, useState,
-} from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import CountUp from 'react-countup';
 import Card from '@/components/Card';
 import { goods } from '@/goods/goods';
 import Receipt from '@/components/Receipt';
 
 function App() {
+  const wallet = useSelector((state) => state.spendMoney.wallet);
+  const total = useSelector((state) => state.spendMoney.total);
   const [stick, setStick] = useState(false);
-  const ref = createRef();
   useEffect(() => {
     window.addEventListener('scroll', () => {
       if (window.scrollY > 205) {
@@ -30,7 +31,19 @@ function App() {
           </div>
           <div className={`self-center z-20 ${stick ? 'fixed top-0' : 'relative mt-10'}`}>
             <div className="px-8 py-2 bg-white rounded-full drop-shadow-lg z-20">
-              <p className="text-5xl text-green-600 font-semibold">$1.000.000.000</p>
+              <p className="text-5xl text-green-600 font-semibold">
+                $
+                {new Intl.NumberFormat('en-US').format(wallet)}
+                {/* <CountUp */}
+                {/*  start={wallet} */}
+                {/*  end={wallet - total} */}
+                {/*  duration={2.7} */}
+                {/*  separator="," */}
+                {/*  decimal="," */}
+                {/*  onEnd={() => console.log('Ended! 👏')} */}
+                {/*  onStart={() => console.log('Started! 💨')} */}
+                {/* /> */}
+              </p>
             </div>
           </div>
         </div>
