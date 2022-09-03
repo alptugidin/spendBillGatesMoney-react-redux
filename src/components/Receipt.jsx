@@ -61,8 +61,7 @@ function Receipt() {
         </p>
         <p className="text-right basis-1/2 text-green-700 font-semibold">
           $
-          {/* {new Intl.NumberFormat('en-US').format(items.reduce((a, b) => a + b.total, 0))} */}
-          {total}
+          {new Intl.NumberFormat('en-US').format(items.reduce((a, b) => a + b.total, 0))}
         </p>
       </div>
     </div>

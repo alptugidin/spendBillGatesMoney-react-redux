@@ -9,6 +9,9 @@ function App() {
   const wallet = useSelector((state) => state.spendMoney.wallet);
   const total = useSelector((state) => state.spendMoney.total);
   const [stick, setStick] = useState(false);
+
+  const [money, setMoney] = useState(1000000000);
+
   useEffect(() => {
     window.addEventListener('scroll', () => {
       if (window.scrollY > 205) {
@@ -18,6 +21,11 @@ function App() {
       }
     });
   }, []);
+
+  useEffect(() => {
+    setMoney(wallet - total);
+  }, [total]);
+
   return (
     <div className="bg-gray-300 pb-56">
       <Receipt />
@@ -33,7 +41,7 @@ function App() {
             <div className="px-8 py-2 bg-white rounded-full drop-shadow-lg z-20">
               <p className="text-5xl text-green-600 font-semibold">
                 $
-                {new Intl.NumberFormat('en-US').format(wallet)}
+                {new Intl.NumberFormat('en-US').format(money)}
                 {/* <CountUp */}
                 {/*  start={wallet} */}
                 {/*  end={wallet - total} */}

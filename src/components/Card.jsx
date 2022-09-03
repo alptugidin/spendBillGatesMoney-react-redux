@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { add, remove, update } from '@/redux/spendMoneySlice';
+import {
+  add, remove, update, updateWallet,
+} from '@/redux/spendMoneySlice';
 
 function Card({ name, price, img }) {
   const [value, setValue] = useState(0);

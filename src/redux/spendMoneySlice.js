@@ -40,6 +40,7 @@ export const spendMoneySlice = createSlice({
         } else {
           const index = state.items.findIndex((item) => item.name === action.payload.name);
           state.items[index].quantity = action.payload.quantity;
+          state.items[index].total = state.items[index].price * state.items[index].quantity;
         }
       } else {
         state.items.push(action.payload);
@@ -52,10 +53,13 @@ export const spendMoneySlice = createSlice({
       state.total = state.items.reduce((a, b) => a + b.total, 0);
     },
 
+    updateWallet: (state, action) => {
+      state.wallet -= state.total;
+    },
   },
 });
 
 export const {
-  add, remove, update, updateTotal,
+  add, remove, update, updateTotal, updateWallet,
 } = spendMoneySlice.actions;
 export default spendMoneySlice.reducer;
