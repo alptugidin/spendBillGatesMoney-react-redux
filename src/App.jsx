@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import CountUp from 'react-countup';
 import Card from '@/components/Card';
 import { goods } from '@/goods/goods';
 import Receipt from '@/components/Receipt';
@@ -37,27 +36,19 @@ function App() {
           <div className={`self-center text-4xl font-semibold text-gray-600 ${stick ? 'hidden' : ''}`}>
             <p>Spend Bill Gate's Money!</p>
           </div>
-          <div className={`self-center z-20 ${stick ? 'fixed top-0' : 'relative mt-10'}`}>
+          <div className={`self-center z-20 ${stick ? 'fixed top-0' : 'relative mt-10 w-[400px] text-center'}`}>
             <div className="px-8 py-2 bg-white rounded-full drop-shadow-lg z-20">
               <p className="text-5xl text-green-600 font-semibold">
                 $
                 {new Intl.NumberFormat('en-US').format(money)}
-                {/* <CountUp */}
-                {/*  start={wallet} */}
-                {/*  end={wallet - total} */}
-                {/*  duration={2.7} */}
-                {/*  separator="," */}
-                {/*  decimal="," */}
-                {/*  onEnd={() => console.log('Ended! 👏')} */}
-                {/*  onStart={() => console.log('Started! 💨')} */}
-                {/* /> */}
+
               </p>
             </div>
           </div>
         </div>
         <div className="flex flex-wrap gap-x-28 gap-y-28 justify-center">
           {goods.map((item, index) => (
-            <Card key={`key${index.toString()}`} name={item.name} img={item.img} price={item.price} />
+            <Card total={total} wallet={wallet} key={`key${index.toString()}`} name={item.name} img={item.img} price={item.price} />
           ))}
         </div>
 

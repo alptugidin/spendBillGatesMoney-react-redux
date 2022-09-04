@@ -4,8 +4,12 @@ import {
   add, remove, update, updateWallet,
 } from '@/redux/spendMoneySlice';
 
-function Card({ name, price, img }) {
+function Card({
+  name, price, img, total, wallet,
+}) {
+  // const len = Math.floor((wallet - total) / price);
   const [value, setValue] = useState(0);
+  const [lock, setLock] = useState(false);
   const dispatch = useDispatch();
 
   const increment = () => {
@@ -15,7 +19,6 @@ function Card({ name, price, img }) {
       quantity: 1,
       total: 0,
     };
-
     dispatch(add(item));
     setValue(value + 1);
   };
@@ -27,19 +30,30 @@ function Card({ name, price, img }) {
 
   const handleOnChange = (e) => {
     if (Number(e.target.value) || e.target.value === '0') {
-      setValue(parseInt(e.target.value));
       const item = {
         name,
         price,
         quantity: parseInt(e.target.value),
         total: 0,
       };
-      dispatch(update(item));
+
+      if (Math.floor((wallet - total) / price) >= parseInt(e.target.value)) {
+        dispatch(update(item));
+        console.log('over');
+        setValue(parseInt(e.target.value));
+      } else {
+        console.log('ok');
+        console.log(Math.floor((wallet - total) / price));
+        // const item2 = { ...item, quantity: Math.floor((wallet - total) / price) };
+        // dispatch(update(item2));
+        // setValue(Math.floor((wallet - total) / price));
+      }
     }
   };
 
   return (
     <div className="bg-white rounded-lg drop-shadow-lg w-80">
+      {Math.floor((wallet - total) / price)}
       <div className="p-2 h-56 w-full bg-white rounded-t-lg  flex flex-col justify-center">
         <img
           src={img}
@@ -63,16 +77,19 @@ function Card({ name, price, img }) {
         >
           Sell
         </button>
-        <input
-          type="text"
-          value={value}
-          onChange={handleOnChange}
-          className="w-1/3 outline-none rounded-lg pl-1 text-center text-lg font-semibold"
-        />
+        {/* <input */}
+        {/*  type="text" */}
+        {/*  value={value} */}
+        {/*  onChange={handleOnChange} */}
+        {/*  className="w-1/3 outline-none rounded-lg pl-1 text-center text-lg font-semibold" */}
+        {/* /> */}
+        <select className="outline-none rounded-lg">
+          {[...Array(10).keys()].map((i) => <option key={i}>{i + 1}</option>)}
+        </select>
         <button
           onClick={increment}
           type="button"
-          className="bg-green-500 px-3 py-1 w-1/3 text-white rounded-full transition-all hover:bg-green-600"
+          className={`bg-green-500 px-3 py-1 w-1/3 text-white rounded-full transition-all hover:bg-green-600 ${wallet - total >= price ? '' : 'pointer-events-none opacity-50'}`}
         >
           Buy
         </button>
