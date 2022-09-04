@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateTotal } from '@/redux/spendMoneySlice';
 
 function Receipt() {
   const items = useSelector((state) => state.spendMoney.items);
-  const total = useSelector((state) => state.spendMoney.total);
+
   const dispatch = useDispatch();
 
   function nFormatter(num) {
